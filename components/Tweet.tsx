@@ -1,7 +1,22 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
 import * as Icon from "react-native-feather";
 import { TweetType } from "../types";
 import React from "react";
+
+type IconButtunProb = {
+  icon: React.ComponentProps<typeof EvilIcons>["name"];
+  text?: number;
+};
+
+const IconBottun = ({ icon, text }: IconButtunProb) => {
+  return (
+    <View style={styles.iconBox}>
+      <EvilIcons name={icon} size={24} color="gray" />
+      <Text style={styles.numberCounts}>{text}</Text>
+    </View>
+  );
+};
 
 type TweetProb = {
   tweet: TweetType;
@@ -14,8 +29,9 @@ const Tweet = ({ tweet }: TweetProb) => {
       <View style={styles.main}>
         <View style={styles.user}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.userName}>{tweet.user.name}</Text>
-            <Text>. 2h</Text>
+            <Text style={styles.Name}>{tweet.user.name}</Text>
+            <Text style={styles.userName}>@{tweet.user.username}</Text>
+            <Text style={{ color: "darkgray" }}>. 2h</Text>
           </View>
           <TouchableOpacity>
             <Icon.MoreHorizontal
@@ -40,50 +56,11 @@ const Tweet = ({ tweet }: TweetProb) => {
         )}
 
         <View style={styles.iconWrapper}>
-          <View style={styles.iconBox}>
-            <Icon.MessageCircle
-              strokeWidth={2.5}
-              height={20}
-              width={20}
-              color={"gray"}
-            />
-            <Text style={styles.numberCounts}>{tweet.numberOfComments}</Text>
-          </View>
-          <View style={styles.iconBox}>
-            <Icon.Repeat
-              strokeWidth={2.5}
-              height={20}
-              width={20}
-              color={"gray"}
-            />
-            <Text style={styles.numberCounts}>{tweet.numberOfRetweets}</Text>
-          </View>
-          <View style={styles.iconBox}>
-            <Icon.Heart
-              strokeWidth={2.5}
-              height={20}
-              width={20}
-              color={"gray"}
-            />
-            <Text style={styles.numberCounts}>{tweet.numberOfLikes}</Text>
-          </View>
-          <View style={styles.iconBox}>
-            <Icon.BarChart2
-              strokeWidth={2.5}
-              height={20}
-              width={20}
-              color={"gray"}
-            />
-            <Text style={styles.numberCounts}>{tweet.impressions}</Text>
-          </View>
-          <View style={styles.iconBox}>
-            <Icon.Upload
-              strokeWidth={2.5}
-              height={20}
-              width={20}
-              color={"gray"}
-            />
-          </View>
+          <IconBottun icon="comment" text={tweet.numberOfComments} />
+          <IconBottun icon="retweet" text={tweet.numberOfRetweets} />
+          <IconBottun icon="heart" text={tweet.numberOfLikes} />
+          <IconBottun icon="chart" text={tweet.impressions || 0} />
+          <IconBottun icon="external-link" />
         </View>
       </View>
     </View>
@@ -113,7 +90,7 @@ const styles = StyleSheet.create({
   iconBox: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 3,
+    gap: 1,
   },
   numberCounts: {
     color: "gray",
@@ -123,9 +100,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  userName: {
+  Name: {
     fontWeight: "bold",
     fontSize: 16,
+  },
+  userName: {
+    color: "gray",
+    fontSize: 13,
+    paddingLeft: 6,
   },
   image: {
     width: 50,
