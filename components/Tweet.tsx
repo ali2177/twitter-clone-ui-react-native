@@ -1,9 +1,9 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
+import { View, Text, Image, TouchableOpacity, StyleSheet , Pressable } from "react-native";
 import * as Icon from "react-native-feather";
 import { TweetType } from "../types";
 import IconButtun from "./IconButtun";
 import React from "react";
+import { Link } from "expo-router";
 
 type TweetProb = {
   tweet: TweetType;
@@ -11,46 +11,48 @@ type TweetProb = {
 
 const Tweet = ({ tweet }: TweetProb) => {
   return (
-    <View style={styles.tweetWrapper}>
-      <Image source={{ uri: tweet.user.image }} style={styles.image} />
-      <View style={styles.main}>
-        <View style={styles.user}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.Name}>{tweet.user.name}</Text>
-            <Text style={styles.userName}>@{tweet.user.username}</Text>
-            <Text style={{ color: "darkgray" }}>. 2h</Text>
+    <Link href={`/tweet/${tweet.id}`} asChild>
+      <Pressable style={styles.tweetWrapper}>
+        <Image source={{ uri: tweet.user.image }} style={styles.image} />
+        <View style={styles.main}>
+          <View style={styles.user}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.Name}>{tweet.user.name}</Text>
+              <Text style={styles.userName}>@{tweet.user.username}</Text>
+              <Text style={{ color: "darkgray" }}>. 2h</Text>
+            </View>
+            <TouchableOpacity>
+              <Icon.MoreHorizontal
+                strokeWidth={2.5}
+                height={20}
+                width={20}
+                color={"gray"}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity>
-            <Icon.MoreHorizontal
-              strokeWidth={2.5}
-              height={20}
-              width={20}
-              color={"gray"}
+          <Text>{tweet.content}</Text>
+          {tweet.image && (
+            <Image
+              source={{ uri: tweet.image }}
+              style={{
+                width: "100%",
+                height: 200,
+                borderRadius: 20,
+                marginVertical: 10,
+              }}
             />
-          </TouchableOpacity>
-        </View>
-        <Text>{tweet.content}</Text>
-        {tweet.image && (
-          <Image
-            source={{ uri: tweet.image }}
-            style={{
-              width: "100%",
-              height: 200,
-              borderRadius: 20,
-              marginVertical: 10,
-            }}
-          />
-        )}
+          )}
 
-        <View style={styles.iconWrapper}>
-          <IconButtun icon="comment" text={tweet.numberOfComments} />
-          <IconButtun icon="retweet" text={tweet.numberOfRetweets} />
-          <IconButtun icon="heart" text={tweet.numberOfLikes} />
-          <IconButtun icon="chart" text={tweet.impressions || 0} />
-          <IconButtun icon="external-link" />
+          <View style={styles.iconWrapper}>
+            <IconButtun icon="comment" text={tweet.numberOfComments} />
+            <IconButtun icon="retweet" text={tweet.numberOfRetweets} />
+            <IconButtun icon="heart" text={tweet.numberOfLikes} />
+            <IconButtun icon="chart" text={tweet.impressions || 0} />
+            <IconButtun icon="external-link" />
+          </View>
         </View>
-      </View>
-    </View>
+      </Pressable>
+    </Link>
   );
 };
 
