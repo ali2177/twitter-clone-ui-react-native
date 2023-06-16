@@ -2,21 +2,8 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 import * as Icon from "react-native-feather";
 import { TweetType } from "../types";
+import IconButtun from "./IconButtun";
 import React from "react";
-
-type IconButtunProb = {
-  icon: React.ComponentProps<typeof EvilIcons>["name"];
-  text?: number;
-};
-
-const IconBottun = ({ icon, text }: IconButtunProb) => {
-  return (
-    <View style={styles.iconBox}>
-      <EvilIcons name={icon} size={24} color="gray" />
-      <Text style={styles.numberCounts}>{text}</Text>
-    </View>
-  );
-};
 
 type TweetProb = {
   tweet: TweetType;
@@ -56,11 +43,11 @@ const Tweet = ({ tweet }: TweetProb) => {
         )}
 
         <View style={styles.iconWrapper}>
-          <IconBottun icon="comment" text={tweet.numberOfComments} />
-          <IconBottun icon="retweet" text={tweet.numberOfRetweets} />
-          <IconBottun icon="heart" text={tweet.numberOfLikes} />
-          <IconBottun icon="chart" text={tweet.impressions || 0} />
-          <IconBottun icon="external-link" />
+          <IconButtun icon="comment" text={tweet.numberOfComments} />
+          <IconButtun icon="retweet" text={tweet.numberOfRetweets} />
+          <IconButtun icon="heart" text={tweet.numberOfLikes} />
+          <IconButtun icon="chart" text={tweet.impressions || 0} />
+          <IconButtun icon="external-link" />
         </View>
       </View>
     </View>
@@ -87,14 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 10,
   },
-  iconBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 1,
-  },
-  numberCounts: {
-    color: "gray",
-  },
+
   user: {
     flexDirection: "row",
     justifyContent: "space-between",
